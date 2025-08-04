@@ -114,6 +114,27 @@ form {
   .uploader-selected-file {
     @apply flex items-center justify-between p-3 bg-gray-50 rounded-2xl;
   }
+
+  /* Icon utility classes */
+  .icon-primary {
+    @apply text-blue-600;
+  }
+  
+  .icon-success {
+    @apply text-green-600;
+  }
+  
+  .icon-warning {
+    @apply text-yellow-600;
+  }
+  
+  .icon-danger {
+    @apply text-red-600;
+  }
+  
+  .icon-muted {
+    @apply text-gray-500;
+  }
 }
 
 @utility bg-gradient {
