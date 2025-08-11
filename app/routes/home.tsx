@@ -14,14 +14,20 @@ export default function Home() {
   return (
     <main className="bg-[url('/images/bg-main.svg')] bg-cover">
       <Navbar />
+
       <section className="main-section">
-        <div className="page-heading">
+        <div className="page-heading py-16">
           <h1>Track Your Application & Resume Ratings</h1>
           <h2>Get insights and improve your chances of success through AI!</h2>
         </div>
-        {resumes?.map((resume: any) => (
-          <ResumeCard key={resume.id} resume={resume} />
-        )) || <p>No resumes found.</p>}
+
+        {resumes.length > 0 && (
+          <div className="resume-section grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {resumes?.map((resume: any) => (
+              <ResumeCard key={resume.id} resume={resume} />
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
