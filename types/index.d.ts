@@ -56,9 +56,3 @@ interface Feedback {
     }[];
   };
 }
-
-interface CompanyIconProps {
-  companyName: string;
-  size?: number;
-  className?: string;
-}

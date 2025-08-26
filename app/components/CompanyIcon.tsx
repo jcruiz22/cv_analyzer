@@ -1,10 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { RiBuildingLine } from 'react-icons/ri';
+import React, { useState, useRef, useEffect } from "react";
+import { RiBuildingLine } from "react-icons/ri";
+
+interface CompanyIconProps {
+  companyName: string;
+  size?: number;
+  className?: string;
+}
 
 const CompanyIcon: React.FC<CompanyIconProps> = ({
   companyName,
   size = 20,
-  className = ""
+  className = "",
 }) => {
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -47,17 +53,20 @@ const CompanyIcon: React.FC<CompanyIconProps> = ({
 
   if (!companyName || imageError) {
     return (
-      <div className={`flex items-center justify-center bg-gray-100 rounded ${className}`} 
-      style={{ width: size, height: size }}>
-        <RiBuildingLine size={Math.floor(size * 0.1)} className="text-gray-500" />
+      <div
+        className={`flex items-center justify-center bg-gray-100 rounded ${className}`}
+        style={{ width: size, height: size }}
+      >
+        <RiBuildingLine
+          size={Math.floor(size * 0.1)}
+          className="text-gray-500"
+        />
       </div>
-        
     );
   }
 
   // Multiple logo API sources as fallbacks
   const logoUrl = `https://logo.clearbit.com/${encodeURIComponent(companyName.toLowerCase())}.com`;
-
 
   const handleImageError = () => {
     setImageError(true);
@@ -69,7 +78,10 @@ const CompanyIcon: React.FC<CompanyIconProps> = ({
   };
 
   return (
-    <div className={`relative ${className}`} style={{ width: size, height: size }}>
+    <div
+      className={`relative ${className}`}
+      style={{ width: size, height: size }}
+    >
       {loading && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse rounded" />
       )}
@@ -82,7 +94,7 @@ const CompanyIcon: React.FC<CompanyIconProps> = ({
         className="rounded object-contain"
         onError={handleImageError}
         onLoad={handleImageLoad}
-        style={{ display: loading ? 'none' : 'block' }}
+        style={{ display: loading ? "none" : "block" }}
       />
     </div>
   );
