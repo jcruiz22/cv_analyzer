@@ -3,14 +3,15 @@ import { useDropzone } from "react-dropzone";
 import { formatSize } from "~/lib/utils";
 
 interface FileUploaderProps {
-  onFileSelect: (file: File | null) => void;
+  onFileSelect?: (file: File | null) => void;
+  selectedFile?: File | null; // Add this to control the display
 }
 
-const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
+const FileUploader = ({ onFileSelect, selectedFile }: FileUploaderProps) => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const file: File = acceptedFiles[0] || null;
-      console.log('Calling onFileSelect with:', file ? file.name : null);
+      console.log("Calling onFileSelect with:", file ? file.name : null);
       onFileSelect?.(file);
     },
     [onFileSelect]
@@ -18,7 +19,7 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
 
   const maxFileSize = 20 * 1024 * 1024; // 20MB
 
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
+  const { getRootProps, getInputProps, isDragActive } =
     useDropzone({
       onDrop,
       multiple: false,
@@ -28,7 +29,8 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
       },
     });
 
-  const file = acceptedFiles[0] || null;
+  // Use the controlled selectedFile prop instead of acceptedFiles
+  const file = selectedFile;
 
   return (
     <div className="w-full gradient-border">
@@ -52,9 +54,18 @@ const FileUploader = ({ onFileSelect }: FileUploaderProps) => {
                   </p>
                 </div>
               </div>
-               <button className="p-2 cursor-pointer" onClick={(e) => onFileSelect?.(null)}>
+              <button
+                type="button"
+                className="p-2 cursor-pointer"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log("Removing file...");
+                  onFileSelect?.(null);
+                }}
+              >
                 <img src="/icons/cross.svg" alt="remove" className="w-4 h-4" />
-               </button>
+              </button>
             </div>
           ) : (
             <div>
