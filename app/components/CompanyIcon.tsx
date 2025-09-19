@@ -10,7 +10,7 @@ interface CompanyIconProps {
 const CompanyIcon: React.FC<CompanyIconProps> = ({
   companyName,
   size = 20,
-  className = "",
+  className = "flex-shrink-0",
 }) => {
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -58,22 +58,31 @@ const CompanyIcon: React.FC<CompanyIconProps> = ({
         style={{ width: size, height: size }}
       >
         <RiBuildingLine
-          size={Math.floor(size * 0.1)}
+          size={Math.floor(size * 0.6)}
           className="text-gray-500"
         />
       </div>
     );
   }
 
-  // Multiple logo API sources as fallbacks
-  const logoUrl = `https://logo.clearbit.com/${encodeURIComponent(companyName.toLowerCase())}.com`;
+  // Clean company name for URL
+  const cleanCompanyName = companyName
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '') // Remove special characters and spaces
+    .trim();
+  
+  const logoUrl = `https://logo.clearbit.com/${cleanCompanyName}.com`;
+  
+  console.log(`CompanyIcon for "${companyName}" -> URL: ${logoUrl}`);
 
   const handleImageError = () => {
+    console.log(`Failed to load logo for: ${companyName} - URL: ${logoUrl}`);
     setImageError(true);
     setLoading(false);
   };
 
   const handleImageLoad = () => {
+    console.log(`Successfully loaded logo for: ${companyName}`);
     setLoading(false);
   };
 
